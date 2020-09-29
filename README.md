@@ -64,13 +64,13 @@ Overview of PVs and PVCs
 
 ### Lesson 7 - Portworx
 
-###Lab - Introduction to portworx
+### Lab - Introduction to portworx
 
-###Lesson 8 - Networking and Service mesh
+### Lesson 8 - Networking and Service mesh
 
-###Lab - Networking using DNS and Stateful sets
+### Lab - Networking using DNS and Stateful sets
 
-### 3 Lesson 9 - Advanced kubernetes administration for beginners
+### Lesson 9 - Advanced kubernetes administration for beginners
 
 ### Lab - TBD
 
