@@ -20,7 +20,7 @@ The labs are designed for ubuntu 18.04. It assumes:
 
 Each lesson will have its own folder in github with the instructor notes, lab notes and additional files
 
-## Syllabus
+## Outline
 
 ### Pre work
 

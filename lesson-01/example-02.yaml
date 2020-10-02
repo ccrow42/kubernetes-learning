@@ -1,0 +1,52 @@
+- name: Prep K8
+  hosts: k82
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  gather_facts: true
+  tasks:
+        - name: install ansible
+          command: apt install ansible -y
+        - name: Remove file (delete file)
+          file:
+            path: /etc/apt/sources.list.d/ansible-ubuntu-ansible-focal.list
+            state: absent
+        - name: Fix IQN
+          lineinfile:
+            path: /etc/iscsi/initiatorname.iscsi
+            regexp: '^InitiatorName='
+            line: "InitiatorName=iqn.1993-08.org.debian:{{ ansible_hostname }}"
+          register: fa1_info
+        - name: add passwordless sudo
+          lineinfile:
+            path: /etc/sudoers
+            line: '%sudo ALL=(ALL) NOPASSWD:ALL'
+        - name: install packages
+          apt:
+            pkg:
+            - multipath-tools
+            - nfs-common
+        - name: enable multipath
+          command: mpathconf --enable --with_multipathd y
+          when: ansible_distribution == 'CentOS'
+        - name: Deploy SSH-keys to remote hosts
+          authorized_key:
+            user: labadmin
+            state: present
+            key: "{{ lookup('file', '/home/labadmin/.ssh/id_rsa.pub') }}"
+        - name: Upgrade all packages to the latest version
+          apt:
+            name: "*"
+            state: latest
+            update_cache: yes
+        - name: check if a reboot is required
+          shell: "[ -f /var/run/reboot-required ]"
+          failed_when: False
+          register: reboot_required
+          changed_when: reboot_required.rc == 0
+          notify: reboot
+
+  handlers:
+      - name: reboot
+        command: /sbin/reboot
+
+...
