@@ -89,10 +89,22 @@ git config --global credential.helper store
 # IMPORTANT NOTE:
 # We don't want to be stepping on each other's changes, and we don't want to have to spend a lot of time learning git, so remember this: Always Pull, add, commit, and push in that order. The pull is important to grab new changes
 
+# Second Important NOTE:
+# I think it would be helpful to create a directory under the lesson to keep track of your excercises. It is up to you, but we want everything you work on to persist, even if the VM goes down. Do this by:
+mkdir ~/kubernetes-learning/lesson-01/ccrow
+touch ~/kubernetes-learning/lesson-01/ccrow/testfile
+
+git pull
+git add .
+git commit -m "my first test commit"
+git push origin master
+
+# Run the above 3 commands when you are done with a lesson and it will be added to the repository. Keep in mind that this repo is public, so don't save anything personal or sensitive
 
 # Create your first YAML file and validate it
+# YAML files can describe anything
 
 # Please type out the yaml file and try to extend it. Indentation can be tricky
-
+# Copy the example-03.yaml file in to your directory and try to add fields and validate it
 
 # Clone the git repository
