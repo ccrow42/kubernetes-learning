@@ -1,0 +1,98 @@
+# (Optional) Generate a new SSH key on your laptop if you haven't already
+ssh-keygen -t rsa -N '' -q -f /root/.ssh/id_rsa
+
+# (Optional) Add your student VM to your hostfile
+sudo echo "<YOURIPADDRESS> kle" >> /etc/hosts
+# The above will allow you to connect to your VM with ssh pureuser@kle
+
+#Accept the SSH key for your linux VM
+ssh-keyscan -H <YOURIPADDRESS> >> ~/.ssh/known_hosts
+
+# Copy your SSH key to your VM for passwordless logins
+# This will allow you to log in to your VM without a password.
+ssh-copy-id pureuser@<YOURIPADDRESS>
+
+# Log in to your VM:
+ssh pureuser@<YourIPAddress>
+
+
+
+New we need to do the same thing on your Linux VM so it can log in to itself. This is required for a few things we will be doing later.
+
+ssh-keygen -t rsa -N '' -q -f /root/.ssh/id_rsa
+ssh-keyscan -H localhost >> ~/.ssh/known_hosts
+ssh-copy-id pureuser@localhost
+
+# You can test that the above works by typing:
+ssh localhost
+
+# Next, it can be helpful to install the lessons locally on your linux VM.
+git clone https://github.com/ccrow42/kubernetes-learning
+
+# Install YAMLLINT
+# YAMLLINT is a great way to validate your YAML files
+sudo apt install yamllint
+
+# Try it out!
+yamllint ~/kubernetes-learning/lesson-01/example-01.yaml
+yamllint ~/kubernetes-learning/lesson-01/example-02.yaml
+
+# Let's talk about the structure of example 01. Nesting, lists
+
+# Install docker engine on your VM
+
+# Get rid of anything from the ubuntu repositories
+sudo apt-get remove docker docker-engine docker.io containerd runc
+
+#Install docker-ce
+sudo apt-get update
+
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+sudo apt-get update
+    $ sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+
+# Let's talk about where and how to save assignments
+# We are going to be using git heavily in this course, and it will be important to know a few basic commands. We have already learned that we can clone a repository, but we will also need to do a few more things:
+
+# Pull down new changes from the repo:
+git pull --all
+
+# your files to get them ready to submit
+git add <filename>
+# Hint: you can use . in the above to grab everything
+
+# Commit the changes with a comment:
+git commit -m "ccrow added lesson1 yaml file"
+
+# and finally, push your changes to the repo
+git push origin master
+
+# You will need to be added to the repository to be able to submit changes. The above may also ask you for a username and password. To have git store your information, use the following:
+git config --global user.email chris\@ccrow.org
+git config --global user.name "ccrow42"
+git config --global credential.helper store
+
+# IMPORTANT NOTE:
+# We don't want to be stepping on each other's changes, and we don't want to have to spend a lot of time learning git, so remember this: Always Pull, add, commit, and push in that order. The pull is important to grab new changes
+
+
+# Create your first YAML file and validate it
+
+# Please type out the yaml file and try to extend it. Indentation can be tricky
+
+
+# Clone the git repository
