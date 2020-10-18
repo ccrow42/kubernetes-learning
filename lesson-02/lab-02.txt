@@ -55,12 +55,19 @@ The above is pulling a
 # HINT, I used this to start the container: sudo docker run -it --rm -p 8080:22 ccrow42/sshd:latest
 # The above will hang the session though,
 
+# How would you add a persistent volume to the above example?
+# What did you find when you connected to the container? Explore a little
+
 #------------
 #Other useful commands for clean up:
 docker ps
 docker kill
 docker rm
 docker rmi
+
+# What did we learn?
+# A container is really nothing special, but it contains everything required to run an app (did you notice the base image we pulled?)
+# All kubernetes will do is solve some of the pain points we discovered in running containers at scale
 
 #------------
 # Bonus points!
