@@ -50,8 +50,17 @@ The above is pulling a
 #------------
 
 # Build your first container image and upload it to your hub.docker.com repository
+# I would recommend openssh, see my example if you get stuck
 
+# HINT, I used this to start the container: sudo docker run -it --rm -p 8080:22 ccrow42/sshd:latest
+# The above will hang the session though,
 
+#------------
+#Other useful commands for clean up:
+docker ps
+docker kill
+docker rm
+docker rmi
 
 #------------
 # Bonus points!
