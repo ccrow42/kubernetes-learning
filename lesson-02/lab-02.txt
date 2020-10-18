@@ -71,6 +71,7 @@ docker rmi
 # All kubernetes will do is solve some of the pain points we discovered when running containers at scale
 # In later lessons, we are going to take the SAME containers we built, and run them on kubernetes!
 # Why do I need to know this?
+# Pay close attention the -v flag in docker! Image being the storage admin that has to support this? Imagine being the developer asking for storage resources or trying to make the above resilient
 
 #------------
 # Bonus points!
