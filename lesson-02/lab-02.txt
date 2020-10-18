@@ -1,6 +1,58 @@
 # Run the pure swagger interface
 
+docker run -it --rm -p 80:5000 sile16/pureswagger
+
+#----------
+
+# Take a look at a simple dockerfile
+git clone https://github.com/fauria/docker-vsftpd
+
+cd docker-vsftpd
+
+#review the Dockerfile, take note that it references an entry point
+
+# this command build an image to store locally. It simply walks through the steps of a docker compose file. Try adding a ping test to the dockerfile
+sudo docker build -t ccrow/vsftp:latest .
+
+# log in to docker hub
+sudo docker login --username=ccrow42
+
+sudo docker images
+
+# Run your container:
+sudo docker run -d -p 21:21 vsftp:latest
+
+# Create a new repository on hub.docker.com
+
+# Now lets push the container to your new repository
+sudo docker build -t ccrow/vsftp:latest .
+
+sudo docker tag <ID> vsftp:latest
+
+sudo docker push ccrow42/vsftp:latest
+
+# You now have an image! You can use your new repository!
 
 
+# And a more complete example:
+docker run -d -v /my/data/directory:/home/vsftpd \
+-p 20:20 -p 21:21 -p 21100-21110:21100-21110 \
+-e FTP_USER=myuser -e FTP_PASS=mypass \
+-e PASV_ADDRESS=127.0.0.1 -e PASV_MIN_PORT=21100 -e PASV_MAX_PORT=21110 \
+--name vsftpd --restart=always fauria/vsftpd
+
+The above is pulling a
+
+# Questions
+# Why didn't we just use the fauria vsftpd image?
+# What does the VOLUME keyword even do if I still need to specify a mount at runtime?
+
+#------------
 
 # Build your first container image and upload it to your hub.docker.com repository
+
+
+
+#------------
+# Bonus points!
+# How would you use a difference image repository?
