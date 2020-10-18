@@ -1,6 +1,7 @@
 # Run the pure swagger interface
 
 docker run -it --rm -p 80:5000 sile16/pureswagger
+# What just happened?
 
 #----------
 
@@ -11,7 +12,7 @@ cd docker-vsftpd
 
 #review the Dockerfile, take note that it references an entry point
 
-# this command build an image to store locally. It simply walks through the steps of a docker compose file. Try adding a ping test to the dockerfile
+# this command will build an image to store locally. It simply walks through the steps of a docker compose file. Try adding a ping test to the dockerfile
 sudo docker build -t ccrow/vsftp:latest .
 
 # log in to docker hub
@@ -25,14 +26,14 @@ sudo docker run -d -p 21:21 vsftp:latest
 # Create a new repository on hub.docker.com
 
 # Now lets push the container to your new repository
-sudo docker build -t ccrow/vsftp:latest .
+sudo docker build -t ccrow42/vsftp:latest .
 
-sudo docker tag <ID> vsftp:latest
+sudo docker tag <ID> ccrow42/vsftp:latest
 
 sudo docker push ccrow42/vsftp:latest
 
 # You now have an image! You can use your new repository!
-
+# Tags are how we reference images and are VERY important. A tag also specifies the repository and version!
 
 # And a more complete example:
 docker run -d -v /my/data/directory:/home/vsftpd \
@@ -41,10 +42,10 @@ docker run -d -v /my/data/directory:/home/vsftpd \
 -e PASV_ADDRESS=127.0.0.1 -e PASV_MIN_PORT=21100 -e PASV_MAX_PORT=21110 \
 --name vsftpd --restart=always fauria/vsftpd
 
-The above is pulling a
+The above is pulling the image from fauria's docker hub repo, but it is the same thing we just built
 
 # Questions
-# Why didn't we just use the fauria vsftpd image?
+# Why didn't we just use the fauria vsftpd image to start?
 # What does the VOLUME keyword even do if I still need to specify a mount at runtime?
 
 #------------
@@ -53,7 +54,7 @@ The above is pulling a
 # I would recommend openssh, see my example if you get stuck
 
 # HINT, I used this to start the container: sudo docker run -it --rm -p 8080:22 ccrow42/sshd:latest
-# The above will hang the session though,
+# The above will hang the session though, how would you fix that? (HINT, make sure you understand the -it vs -d option)
 
 # How would you add a persistent volume to the above example?
 # What did you find when you connected to the container? Explore a little
@@ -73,3 +74,4 @@ docker rmi
 #------------
 # Bonus points!
 # How would you use a difference image repository?
+# Can you access a shell inside these containers?
