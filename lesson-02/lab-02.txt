@@ -67,7 +67,8 @@ docker rmi
 
 # What did we learn?
 # A container is really nothing special, but it contains everything required to run an app (did you notice the base image we pulled?)
-# All kubernetes will do is solve some of the pain points we discovered in running containers at scale
+# All kubernetes will do is solve some of the pain points we discovered when running containers at scale
+# In later lessons, we are going to take the SAME containers we built, and run them on kubernetes!
 
 #------------
 # Bonus points!
