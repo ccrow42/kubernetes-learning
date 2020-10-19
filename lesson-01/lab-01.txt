@@ -1,5 +1,5 @@
 # (Optional) Generate a new SSH key on your laptop if you haven't already
-ssh-keygen -t rsa -N '' -q -f /root/.ssh/id_rsa
+ssh-keygen
 
 # (Optional) Add your student VM to your hostfile
 sudo echo "<YOURIPADDRESS> kle" >> /etc/hosts
