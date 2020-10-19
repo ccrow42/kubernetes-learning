@@ -17,7 +17,7 @@ ssh pureuser@<YourIPAddress>
 
 
 
-New we need to do the same thing on your Linux VM so it can log in to itself. This is required for a few things we will be doing later.
+Now we need to do the same thing on your Linux VM so it can log in to itself. This is required for a few things we will be doing later.
 
 ssh-keygen -t rsa -N '' -q -f ~/.ssh/id_rsa
 ssh-keyscan -H localhost >> ~/.ssh/known_hosts
