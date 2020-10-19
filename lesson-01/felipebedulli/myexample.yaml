@@ -1,0 +1,15 @@
+---
+birthdayVersion: v1
+birthdays:
+  -
+    name: chris
+    birthday: January1
+  -
+    name: bob
+    birthday: February1
+  -
+    name: felipe
+    birthday: August1  
+  -
+    name: erik
+    birthday: March1
