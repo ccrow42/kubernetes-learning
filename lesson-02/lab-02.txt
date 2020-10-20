@@ -6,7 +6,8 @@ docker run -it --rm -p 80:5000 sile16/pureswagger
 #----------
 
 # Take a look at a simple dockerfile
-git clone https://github.com/fauria/docker-vsftpd
+git clone https://github.com/fauria/docker-vsftpd ./~
+# The above command should clone the repo in to the home directory
 
 cd docker-vsftpd
 
