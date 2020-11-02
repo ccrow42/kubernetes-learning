@@ -1,0 +1,61 @@
+# Installing Kubernetes using Kubespray
+
+# Kubespray is a set of ansible scripts that will deploy kuberenetes for us.
+# We use it here as our goal is not to be a kubernetes architect. If you would like to deploy your own cluster
+# by hand, see this howto: https://tansanrao.com/kubernetes-ha-cluster-with-kubeadm/ or this howto: https://blah.cloud/kubernetes/creating-an-ubuntu-18-04-lts-cloud-image-for-cloning-on-vmware/
+
+# Let's get started. First, let's get a copy of Kubespray
+cd ~
+git clone https://github.com/kubernetes-sigs/kubespray
+
+#Now is a good time to understand the checkout command, tags, and branches. Two links I would recommend for further reading:
+# https://guides.github.com/introduction/flow/
+# https://nvie.com/posts/a-successful-git-branching-model/
+
+# We need to install pip3
+sudo apt install python3-pip
+
+# pip3 allows us to manage python packages. the modules are typically install under the user
+
+# Install dependencies from ``requirements.txt``
+cd kubespray
+sudo pip3 install -r requirements.txt
+
+# Copy ``inventory/sample`` as ``inventory/mycluster``
+cp -rfp inventory/sample inventory/mycluster
+
+# Edit your inventory file for a single node deployment
+vi ~/kubespray/inventory/mycluster/inventory.ini
+
+# it is important to change the IP of node1 and ensure it is a master, worker, and etcd deployment
+
+# Review and change parameters under ``inventory/mycluster/group_vars``
+less inventory/mycluster/group_vars/all/all.yml
+less inventory/mycluster/group_vars/k8s-cluster/k8s-cluster.yml
+
+#If you read through the above, you will notice a section about adding the config to the localhost
+vi mycluster/group_vars/k8s-cluster/k8s-cluster.yml
+
+# uncomment and set to true line 235 and 237
+
+
+# Deploy Kubespray with Ansible Playbook - run the playbook as root
+# The option `--become` is required, as for example writing SSL keys in /etc/,
+# installing packages and interacting with various systemd daemons.
+# Without --become the playbook will fail to run!
+ansible-playbook -i inventory/mycluster/inventory.ini  --become --become-user=root cluster.yml -K
+
+# Try out kubectl, why didn't it work?
+# We need the authentication config for kubectl
+
+cat ~/kubespray/inventory/mycluster/artifacts/admin.conf
+mkdir ~/.kube
+cp ~/kubespray/inventory/mycluster/artifacts/admin.conf ~/.kube/config
+
+
+# Getting to know kubectl:
+
+kubectl create namespace demo
+kubectl get pods
+kubectl get nodes
+kubectl describe nodes
