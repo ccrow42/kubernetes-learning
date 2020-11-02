@@ -1,12 +1,13 @@
 # Run the pure swagger interface
 
-docker run -it --rm -p 80:5000 sile16/pureswagger
+sudo docker run -it --rm -p 80:5000 sile16/pureswagger
 # What just happened?
 
 #----------
 
 # Take a look at a simple dockerfile
-git clone https://github.com/fauria/docker-vsftpd ./~
+cd ~
+git clone https://github.com/fauria/docker-vsftpd
 # The above command should clone the repo in to the home directory
 
 cd docker-vsftpd
@@ -14,7 +15,7 @@ cd docker-vsftpd
 #review the Dockerfile, take note that it references an entry point
 
 # this command will build an image to store locally. It simply walks through the steps of a docker compose file. Try adding a ping test to the dockerfile
-sudo docker build -t ccrow/vsftp:latest .
+sudo docker build -t <YourUserName>/vsftp:latest .
 
 # log in to docker hub
 sudo docker login --username=ccrow42
@@ -26,18 +27,20 @@ sudo docker run -d -p 21:21 vsftp:latest
 
 # Create a new repository on hub.docker.com
 
-# Now lets push the container to your new repository
+# Now lets push the container to your new repository (The . is not a typo below!)
 sudo docker build -t ccrow42/vsftp:latest .
 
-sudo docker tag <ID> ccrow42/vsftp:latest
+# You can add another tag to the same image at any time!
+# If we add the tag after the fact, you will need to specify the Image ID (find with sudo docker images)
+sudo docker tag <Image_ID> ccrow42/vsftp:1.1
 
 sudo docker push ccrow42/vsftp:latest
 
 # You now have an image! You can use your new repository!
 # Tags are how we reference images and are VERY important. A tag also specifies the repository and version!
 
-# And a more complete example:
-docker run -d -v /my/data/directory:/home/vsftpd \
+# And a more complete example of running a container:
+docker run -d -v /mnt/vsftp:/home/vsftpd \
 -p 20:20 -p 21:21 -p 21100-21110:21100-21110 \
 -e FTP_USER=myuser -e FTP_PASS=mypass \
 -e PASV_ADDRESS=127.0.0.1 -e PASV_MIN_PORT=21100 -e PASV_MAX_PORT=21110 \
@@ -76,5 +79,5 @@ docker rmi
 
 #------------
 # Bonus points!
-# How would you use a difference image repository?
+# How would you use a different image repository?
 # Can you access a shell inside these containers?
