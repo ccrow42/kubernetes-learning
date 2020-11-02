@@ -1,0 +1,7 @@
+---
+birthdayVersion: v1
+birthdays:
+  - name: chris
+    birthday: January1
+  - name: bob
+    birthday: February1

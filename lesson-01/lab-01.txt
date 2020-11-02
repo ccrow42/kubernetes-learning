@@ -1,5 +1,5 @@
 # (Optional) Generate a new SSH key on your laptop if you haven't already
-ssh-keygen -t rsa -N '' -q -f /root/.ssh/id_rsa
+ssh-keygen
 
 # (Optional) Add your student VM to your hostfile
 sudo echo "<YOURIPADDRESS> kle" >> /etc/hosts
@@ -17,9 +17,9 @@ ssh pureuser@<YourIPAddress>
 
 
 
-New we need to do the same thing on your Linux VM so it can log in to itself. This is required for a few things we will be doing later.
+Now we need to do the same thing on your Linux VM so it can log in to itself. This is required for a few things we will be doing later.
 
-ssh-keygen -t rsa -N '' -q -f /root/.ssh/id_rsa
+ssh-keygen -t rsa -N '' -q -f ~/.ssh/id_rsa
 ssh-keyscan -H localhost >> ~/.ssh/known_hosts
 ssh-copy-id pureuser@localhost
 
@@ -62,7 +62,7 @@ sudo add-apt-repository \
    stable"
 
 sudo apt-get update
-    $ sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 
 # Let's talk about where and how to save assignments
