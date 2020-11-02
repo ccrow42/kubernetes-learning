@@ -55,7 +55,17 @@ cp ~/kubespray/inventory/mycluster/artifacts/admin.conf ~/.kube/config
 
 # Getting to know kubectl:
 
-kubectl create namespace demo
+kubectl create namespace class
 kubectl get pods
 kubectl get nodes
 kubectl describe nodes
+kubectl apply -f swagger.yaml -n class
+kubectl get pods -n class
+kubectl get services -n class
+
+# In the above commands we just deployed the same application in kubernetes.
+# Can you deploy your previous application (openssh) from lesson 2 to your new kuberenetes cluster?
+
+# A quick note about networking.
+
+# https://kubernetes.io/docs/reference/kubectl/cheatsheet/
