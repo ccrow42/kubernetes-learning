@@ -1,0 +1,11 @@
+arrays:
+  FlashArrays:
+    - MgmtEndPoint: "dfw-lab-x50-1.dfwlab.purestorage.com"
+      APIToken: "ebfab168-eb75-8330-d99f-bc7a0373a270"
+      Labels:
+        rack: "22"
+        env: "prod"
+  FlashBlades:
+    - MgmtEndPoint: "dfw-lab-fb-1.dfwlab.purestorage.com"
+      APIToken: "T-b896669d-bfd2-41b7-9ca2-0ca6f62abf97"
+      NFSEndPoint: "172.19.0.20"
