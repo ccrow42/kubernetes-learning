@@ -36,7 +36,7 @@ less inventory/mycluster/group_vars/all/all.yml
 less inventory/mycluster/group_vars/k8s-cluster/k8s-cluster.yml
 
 #If you read through the above, you will notice a section about adding the config to the localhost
-vi mycluster/group_vars/k8s-cluster/k8s-cluster.yml
+vi ~/kubespray/inventory/mycluster/group_vars/k8s-cluster/k8s-cluster.yml
 
 # uncomment and set to true line 235 and 237
 

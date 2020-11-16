@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    app: openssh
+  name: openssh
+spec:
+  containers:
+  - image: ccrow42/sshd
+    name: openssh
+    env:
+    ports:
+    - containerPort: 22
+      protocol: TCP
+    resources: {}
+  restartPolicy: OnFailure
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: pure-swagger
+  name: pure-swagger
+spec:
+  ports:
+  - name: "22"
+    port: 22
+    protocol: TCP
+    targetPort: 22
+  selector:
+    app: openssh
+  type: NodePort
+status:
+  loadBalancer: {}
