@@ -22,8 +22,8 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: pure-swagger
-  name: pure-swagger
+    app: openssh
+  name: openssh
 spec:
   ports:
   - name: "22"
