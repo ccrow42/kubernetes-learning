@@ -40,11 +40,11 @@ vi ~/kubespray/inventory/mycluster/group_vars/k8s-cluster/k8s-cluster.yml
 
 # uncomment and set to true line 235 and 237
 
-
 # Deploy Kubespray with Ansible Playbook - run the playbook as root
 # The option `--become` is required, as for example writing SSL keys in /etc/,
 # installing packages and interacting with various systemd daemons.
 # Without --become the playbook will fail to run!
+cd ~/kubespray
 ansible-playbook -i inventory/mycluster/inventory.ini  --become --become-user=root cluster.yml -K
 
 # Try out kubectl, why didn't it work?
@@ -71,3 +71,9 @@ kubectl get services -n class
 # A quick note about networking.
 
 # https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
+
+# Command completion:
+alias k='kubectl'
+source <(kubectl completion bash)
+complete -F __start_kubectl k

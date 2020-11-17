@@ -1,2 +1,13 @@
 
 # Fix iSCSI iqn
+
+# Deployments
+
+
+
+# Daemon sets
+# To run a log aggregator
+
+# Talk about minio app
+
+# Intro to the diff command
