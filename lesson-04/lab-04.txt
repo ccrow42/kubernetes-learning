@@ -1,7 +1,20 @@
 
 # Fix iSCSI iqn
 
-# Deployments
+## Deployments
+
+# Review the yaml file
+cat helloworld.yaml
+
+#Deploy the hello world deployment
+kubectl -n <yourNamespace> apply -f helloworld.yaml
+
+# Connect to the node part and refresh, notice the changing container ID (HINT: you may need to hold down on shift)
+
+# Delete a pod
+
+# Scale the deployment with the scale command
+kubectl -n <yourNamespace> scale helloworld-deployment --replicas=4
 
 
 
