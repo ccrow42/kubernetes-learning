@@ -71,4 +71,11 @@ helm install pure-pso pure/pure-pso --version 6.0.3 --namespace pso -f resources
 kubectl get pods -A --watch
 kubectl get storageclass
 
+# let's talk about the startup process
+
+# let's talk about common things that can go wrong
+
+
 # Now lets try minio again:
+kubectl create namespace lesson04-3
+kubectl -n lesson04-3 apply -f minio-pvc/.
