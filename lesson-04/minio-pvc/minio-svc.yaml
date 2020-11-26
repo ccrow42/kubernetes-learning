@@ -6,7 +6,7 @@ spec:
   type: NodePort
   ports:
     - port: 9001
-      targetPort: 9001
+      targetPort: 9000
       protocol: TCP
   selector:
     app: minio-pure
