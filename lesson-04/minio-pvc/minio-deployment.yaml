@@ -36,7 +36,7 @@ spec:
           value: "minio123"
         ports:
         - containerPort: 9000
-          hostPort: 9000
+          hostPort: 9001
         # Mount the volume into the pod
         volumeMounts:
         - name: storage # must match the volume name, above
