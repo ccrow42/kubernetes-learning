@@ -53,3 +53,13 @@ kubectl -n lesson04-2 get svc
 # Install helm
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 # Take a moment to appriciate what the above did
+
+# Modify for the PSOValues.yaml
+vi resources/PSOValues.yaml
+
+# Install PSO
+kubectl create namespace pso
+helm repo add pure https://purestorage.github.io/pso-csi
+helm repo update
+helm search repo pure-pso -l
+helm install pure-pso pure/pure-pso --version 6.0.3 --namespace pso -f resources/PSOValues.yaml --dry-run --debug
