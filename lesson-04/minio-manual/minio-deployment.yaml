@@ -6,14 +6,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: minio
+      app: minio-manual
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         # Label is used as selector in the service.
-        app: minio
+        app: minio-manual
     spec:
       # Refer to the PVC created earlier
       volumes:

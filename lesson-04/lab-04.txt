@@ -7,20 +7,26 @@
 cat helloworld.yaml
 
 #Deploy the hello world deployment
-kubectl -n <yourNamespace> apply -f helloworld.yaml
+kubectl -n lesson04-1 apply -f helloworld.yaml
 
 # Connect to the node part and refresh, notice the changing container ID (HINT: you may need to hold down on shift)
 
 # Delete a pod
+kubectl get pods -n lesson04-1
+kubectl -n lesson04-1 delete pod <podName>
+# Notice the pod is recreated. Why is this?
 
-# Scale the deployment with the scale command
-kubectl -n <yourNamespace> scale helloworld-deployment --replicas=4
-
-
-
-# Daemon sets
-# To run a log aggregator
+# Scale the deployment
+kubectl get deployments -A
+kubectl -n lesson04-1 scale deployment helloworld-deployment --replicas=2
+kubectl get pods -n lesson04-1
 
 # Talk about minio app
 
 # Intro to the diff command
+#Used to look for changes between files
+cd ~/kubernetes-learning/lesson-04
+lesson-04]$ diff minio-manual/minio-pvc.yaml minio-pvc/minio-pvc.yaml
+
+# deploy storage the good old fashioned way
+sudo mkdir /mnt/minio
