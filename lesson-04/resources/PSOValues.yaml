@@ -1,9 +1,5 @@
 clusterID: ccrow01
 arrays:
   FlashArrays:
-    - MgmtEndPoint: "dfw-lab-x50-1.dfwlab.purestorage.com"
+    - MgmtEndPoint: "10.228.112.50"
       APIToken: "0ab0b991-7d42-e620-6622-e8775a592508"
-  FlashBlades:
-    - MgmtEndPoint: "dfw-lab-fb-1.dfwlab.purestorage.com"
-      APIToken: "T-b896669d-bfd2-41b7-9ca2-0ca6f62abf97"
-      NFSEndPoint: "172.19.0.20"

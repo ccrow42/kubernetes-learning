@@ -63,3 +63,12 @@ helm repo add pure https://purestorage.github.io/pso-csi
 helm repo update
 helm search repo pure-pso -l
 helm install pure-pso pure/pure-pso --version 6.0.3 --namespace pso -f resources/PSOValues.yaml --dry-run --debug
+
+The above will perform a dry run, look at what the helm chart does, do you recognize anything in the yaml files?
+
+# Install PSO (for real this time)
+helm install pure-pso pure/pure-pso --version 6.0.3 --namespace pso -f resources/PSOValues.yaml
+kubectl get pods -A --watch
+kubectl get storageclass
+
+# Now lets try minio again:
