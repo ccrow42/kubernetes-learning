@@ -28,5 +28,28 @@ kubectl get pods -n lesson04-1
 cd ~/kubernetes-learning/lesson-04
 lesson-04]$ diff minio-manual/minio-pvc.yaml minio-pvc/minio-pvc.yaml
 
+# Review the yaml files making up this deployment
+
 # deploy storage the good old fashioned way
 sudo mkdir /mnt/minio
+kubectl create namespace lesson04-2
+kubectl -n lesson04-2 apply -f minio-manual/.
+
+# Use what you have learned to check the status of the deployment, pod, pv and pvc
+
+kubectl -n lesson04-2 get svc
+
+# connect to the minio deployment and upload some data
+
+# Check to make sure the data uploaded
+
+# Questions:
+# How did it know which PV to use?
+# what happens if the node fails?
+
+
+# Now we will use a CSI driver. First, we need to install helm, think package manager for k8s
+
+# Install helm
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+# Take a moment to appriciate what the above did
