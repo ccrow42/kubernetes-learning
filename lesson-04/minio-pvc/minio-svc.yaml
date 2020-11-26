@@ -5,8 +5,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 9000
-      targetPort: 9000
+    - port: 9001
+      targetPort: 9001
       protocol: TCP
   selector:
     app: minio-pure
