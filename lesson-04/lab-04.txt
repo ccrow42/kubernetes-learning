@@ -26,7 +26,7 @@ kubectl get pods -n lesson04-1
 # Intro to the diff command
 #Used to look for changes between files
 cd ~/kubernetes-learning/lesson-04
-lesson-04]$ diff minio-manual/minio-pvc.yaml minio-pvc/minio-pvc.yaml
+diff minio-manual/minio-pvc.yaml minio-pvc/minio-pvc.yaml
 
 # Review the yaml files making up this deployment
 
@@ -56,6 +56,7 @@ curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bas
 
 # Modify for the PSOValues.yaml
 vi resources/PSOValues.yaml
+# Please set the cluster name to something that I can pick out in a search and let me know what it is
 
 # Install PSO
 kubectl create namespace pso
@@ -75,7 +76,12 @@ kubectl get storageclass
 
 # let's talk about common things that can go wrong
 
-
+# Carefully review the files in the minio-pvc and take note of what changed (use diff if needed)
 # Now lets try minio again:
 kubectl create namespace lesson04-3
 kubectl -n lesson04-3 apply -f minio-pvc/.
+
+# Use what you have learned to check the status of the deployment, pod, service, pv and pvc
+
+# NOTE! We now have created a lot of storage in the DFW lab. We need to now pay careful attention to snapshot reverts and cleanup tasks
+# it is possible to clean up lessons by deleting the namespaces
