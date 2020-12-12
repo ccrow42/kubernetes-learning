@@ -21,23 +21,104 @@ kubectl apply -f https://raw.githubusercontent.com/purestorage/pso-csi/master/pu
 
 Now let's head over to the minio-snap directory and run through the steps:
 
-kubectl create namespace lesson05-01
-kubectl -n lesson05-01 apply -f 1_*
-kubectl -n lesson05-01 describe PersistentVolumeClaim
+kubectl create namespace lesson05-1
+kubectl -n lesson05-1 apply -f 1_*
+kubectl -n lesson05-1 describe PersistentVolumeClaim
 
-kubectl -n lesson05-01 apply -f 2_*
-kubectl -n lesson05-01 describe pods
+kubectl -n lesson05-1 apply -f 2_*
+kubectl -n lesson05-1 describe pods
 
-kubectl -n lesson05-01 apply -f 3_*
-kubectl -n lesson05-01 describe services
+kubectl -n lesson05-1 apply -f 3_*
+kubectl -n lesson05-1 describe services
 
-kubectl -n lesson05-01 apply -f 4_*
-kubectl -n lesson05-01 describe volumesnapshots
+# Connect to the service and put some data on minio
 
-kubectl -n lesson05-01 apply -f 5_*
-kubectl -n lesson05-01 describe PersistentVolumeClaim
+kubectl -n lesson05-1 apply -f 4_*
+kubectl -n lesson05-1 describe volumesnapshots
 
-kubectl -n lesson05-01 apply -f 6_*
-kubectl -n lesson05-01 apply -f 7_*
+# (Optional) Delete some data from minio
+
+kubectl -n lesson05-1 apply -f 5_*
+kubectl -n lesson05-1 describe PersistentVolumeClaim
+
+kubectl -n lesson05-1 apply -f 6_*
+kubectl -n lesson05-1 apply -f 7_*
+kubectl -n lesson05-1 get service
+
+# Connect to the new service and look at what data is there
 
 # The above is dense. Pause at every step to understand what is happening behind the scenes
+
+# By the way, the above example was the demo I gave during my vTeams interview
+
+## MySQL stateful set
+
+# Change directory to the mysql-statefulset directory
+
+kubectl create namespace lesson05-2
+
+kubectl -n lesson05-2 apply -f mysql-configmap.yaml
+
+kubectl -n lesson05-2 apply -f mysql-services.yaml
+
+kubectl -n lesson05-2 apply -f mysql-statefulset.yaml
+
+# Watch the app come up:
+kubectl -n lesson05-2 get pods -l app=mysql --watch
+
+# Push some data to the master:
+kubectl -n lesson05-2 run mysql-client --image=mysql:5.7 -i --rm --restart=Never --\
+  mysql -h mysql-0.mysql <<EOF
+CREATE DATABASE test;
+CREATE TABLE test.messages (message VARCHAR(250));
+INSERT INTO test.messages VALUES ('hello');
+EOF
+
+# Test that the data is there:
+kubectl -n lesson05-2 run mysql-client --image=mysql:5.7 -i -t --rm --restart=Never --\
+   mysql -h mysql-read -e "SELECT * FROM test.messages"
+
+# Loop through the mysql servers. It is helpful to have this running in a different window
+kubectl -n lesson05-2 run mysql-client-loop --image=mysql:5.7 -i -t --rm --restart=Never --\
+   bash -ic "while sleep 1; do mysql -h mysql-read -e 'SELECT @@server_id,NOW()'; done"
+
+# The above command is a little crazy (and my favorite command we have run so far, it shows a short lived container). It is creating a new mssql connection every second and reading the server_id
+# How is it cycling through the different pods? Services match their selector and round robin automatically
+# what is the difference between the two services?
+
+# Simulate downtime by moving the mysql binary out of the way
+kubectl -n lesson05-2 exec mysql-2 -c mysql -- mv /usr/bin/mysql /usr/bin/mysql.off
+
+kubectl -n lesson05-2 get pod mysql-2
+
+kubectl -n lesson05-2 exec mysql-2 -c mysql -- mv /usr/bin/mysql.off /usr/bin/mysql
+
+#Questions:
+# How did the system know that the pod was down? Talk about Liveness probes and Readiness probes
+
+# Delete a pod
+kubectl -n lesson05-2 delete pod mysql-2
+
+# Scale the number of slaves
+kubectl -n lesson05-2 scale statefulset mysql  --replicas=5
+
+kubectl -n lesson05-2 get pods -l app=mysql --watch
+
+kubectl -n lesson05-2 scale statefulset mysql  --replicas=3
+
+
+
+## Backups!!!
+
+# go to the velero directory
+
+
+# Install velero:
+./velero install \
+    --provider aws \
+    --plugins velero/velero-plugin-for-aws:v1.0.0 \
+    --bucket velero \
+    --secret-file ./velero-creds \
+    --use-volume-snapshots=false \
+    --use-restic=true \
+    --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=http://10.228.112.79
