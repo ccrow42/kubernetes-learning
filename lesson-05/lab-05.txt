@@ -112,13 +112,37 @@ kubectl -n lesson05-2 scale statefulset mysql  --replicas=3
 
 # go to the velero directory
 
-
+## Pause Here!!! You need to modify the bucket name!!!
 # Install velero:
 ./velero install \
     --provider aws \
     --plugins velero/velero-plugin-for-aws:v1.0.0 \
-    --bucket velero \
+    --bucket <ccrow[01-14]> \
     --secret-file ./velero-creds \
     --use-volume-snapshots=false \
     --use-restic=true \
     --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=http://10.228.112.79
+
+# Start the backup
+# Keep in mind that the below grabs everything! Velero uses selectors just like everything else. Try the namespace selector!
+./velero backup create ccrow01-01 --default-volumes-to-restic
+
+# watch the backup:
+watch ./velero backup describe ccrow01-01
+
+# get a list of backups
+./velero backup get
+
+
+# Now delete a namespace!!!
+
+kubectl delete namespace lesson05-1
+
+# test that minio is down
+# We may have to do some intense troubleshooting here if the deletion doesn't work
+
+./velero restore create --from-backup ccrow01-01 --include-namespaces lesson05-1
+
+# now, some things will not restore, check to see what worked. Why did the second pvc now get restored?
+# Second, we are getting close to the edge of what a single node kubernetes environment can do, so you may have resource constraints
+# Troubleshoot with describe commands
