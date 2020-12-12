@@ -1,5 +1,14 @@
 
 # Fix iSCSI iqn
+sudo cat /etc/iscsi/initiatorname.iscsi
+
+sudo vi /etc/iscsi/initiatorname.iscsi
+change the initiator name
+
+sudo systemctl restart iscsid
+
+sudo systemctl status iscsid
+
 
 ## Deployments
 

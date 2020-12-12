@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-servicev2
+spec:
+  type: NodePort
+  ports:
+    - port: 9001
+      targetPort: 9000
+      protocol: TCP
+  selector:
+    app: miniov2

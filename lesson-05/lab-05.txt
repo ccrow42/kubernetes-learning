@@ -1,0 +1,43 @@
+ ## First, we are going to learn about snapshots and clones.
+
+ # Install the snapshot beta CRDs and Controller
+ # install CRD with Beta release
+kubectl create -f  https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-2.0/config/crd/snapshot.storage.k8s.io_volumesnapshotclasses.yaml
+kubectl create -f  https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-2.0/config/crd/snapshot.storage.k8s.io_volumesnapshotcontents.yaml
+kubectl create -f  https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-2.0/config/crd/snapshot.storage.k8s.io_volumesnapshots.yaml
+
+#Add the snap controller
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-2.0/deploy/kubernetes/snapshot-controller/rbac-snapshot-controller.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-2.0/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml
+
+
+# The above extends the kubernetes API so that snapshots are supported. It also adds a controller to manage them
+
+# New lets install the purestorage volumeSnapshotclass:
+kubectl apply -f https://raw.githubusercontent.com/purestorage/pso-csi/master/pure-pso/snapshotclass.yaml
+
+# You will need a snapshot class for every CSI driver you have (portworx being another example)
+
+
+Now let's head over to the minio-snap directory and run through the steps:
+
+kubectl create namespace lesson05-01
+kubectl -n lesson05-01 apply -f 1_*
+kubectl -n lesson05-01 describe PersistentVolumeClaim
+
+kubectl -n lesson05-01 apply -f 2_*
+kubectl -n lesson05-01 describe pods
+
+kubectl -n lesson05-01 apply -f 3_*
+kubectl -n lesson05-01 describe services
+
+kubectl -n lesson05-01 apply -f 4_*
+kubectl -n lesson05-01 describe volumesnapshots
+
+kubectl -n lesson05-01 apply -f 5_*
+kubectl -n lesson05-01 describe PersistentVolumeClaim
+
+kubectl -n lesson05-01 apply -f 6_*
+kubectl -n lesson05-01 apply -f 7_*
+
+# The above is dense. Pause at every step to understand what is happening behind the scenes
