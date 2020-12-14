@@ -126,6 +126,9 @@ kubectl -n lesson05-2 scale statefulset mysql  --replicas=3
 
 # go to the velero directory
 
+#make velero executable:
+chmod +x velero
+
 ## Pause Here!!! You need to modify the bucket name!!!
 # Install velero:
 ./velero install \
@@ -157,6 +160,6 @@ kubectl delete namespace lesson05-1
 
 ./velero restore create --from-backup ccrow01-01 --include-namespaces lesson05-1
 
-# now, some things will not restore, check to see what worked. Why did the second pvc not get restored?
+# now, some things will not restore, check to see what worked. 
 # Second, we are getting close to the edge of what a single node kubernetes environment can do, so you may have resource constraints
 # Troubleshoot with describe commands
