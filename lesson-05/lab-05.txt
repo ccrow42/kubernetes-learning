@@ -143,6 +143,6 @@ kubectl delete namespace lesson05-1
 
 ./velero restore create --from-backup ccrow01-01 --include-namespaces lesson05-1
 
-# now, some things will not restore, check to see what worked. Why did the second pvc now get restored?
+# now, some things will not restore, check to see what worked. Why did the second pvc not get restored?
 # Second, we are getting close to the edge of what a single node kubernetes environment can do, so you may have resource constraints
 # Troubleshoot with describe commands
