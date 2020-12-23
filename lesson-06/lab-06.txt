@@ -1,0 +1,126 @@
+###
+Requirements:
+- A basic understanding of kubernetes (how to find pods, execute commands, etc)
+- an intermediate understanding of networking, we will be using ssh to forward ports
+- Make life easy on yourself and use ssh-copy-id to get your public key in the account
+- Patience! This lab is on the cutting edge of what everyone will be working on
+- A portworx account
+- These labs are brand new and setup fresh for this lesson
+
+
+### We will be splitting in to pairs
+
+# pxlab01/pxlab02 and pxlab03/pxlab04
+# you can access the labs with pxlab##@k0.ccrow.org
+
+#pxlab01 owns k31-k34
+#pxlab02 owns k41-k44
+#pxlab03 owns k51-k54
+#pxlab04 owns k61-k64
+#The first node in the above is the control node, the others are workers
+
+
+#kubectl should be configured correctly, metallb is installed and working.
+# some excercises will require the use of ssh port forwarding, make sure you are familiar with the process (I will try to have good example commands)
+
+### The goal is to do the following
+# Install portworx
+# Test minio with portworx, unique data
+# Install px-backup
+# Configure px-backup (including your neighbors cluster!)
+# Backup minio, delete minio, restore minio
+# Migrate your minio to your neighbor's Cluster
+
+
+### Install portworx
+# Log in to portworx and get the configuration
+
+# Be sure to use the operator
+# Use the internal KVDB
+# do not give kvdb a dedicated devices
+# It is fine to automatically grab the device, sdb is a blank, 20gb disk
+
+
+# Execute pxctl status against portworx pod
+# Find the px-cluster pods
+kubectl get pods -A
+
+# execute pxctl status on the chosen pod
+kubectl exec px-cluster-4c4ca671-5ed2-4952-9965-f036335441a2-spnz8 -n kube-system -it -- /opt/pwx/bin/pxctl status
+
+# Did the above work?
+
+# Check some other things:
+kubectl get storageclasses
+
+
+## Deploy Minio. NOTE: do not copy and paste the below commands, the namespace must be unique
+cd ~/kubernetes-learning/lesson-06/minio
+
+#Where ## is the number of your portworx lab
+kubectl create namespace minio##
+kubectl -n minio## apply -f .
+
+# Find the load balancer IP and port:
+kubectl -n minio## get services
+
+# close you SSH tunnel and restart it with (The bit past the -L is <localport>:<dstIP>:<dstPort>)
+# Replace all of the below with the correct IP and ports
+ssh pxlab##@k0.ccrow.org -L 9000:10.0.1.8:9000
+
+# Connect to minIO and add some unique data
+
+
+## Install px-backup
+
+helm repo add portworx http://charts.portworx.io/ && helm repo update
+
+helm install px-backup portworx/px-backup --namespace px-backup --create-namespace --version 1.2.0 --set persistentStorage.enabled=true,persistentStorage.storageClassName="px-db"
+
+# you can watch the environment come up with:
+watch kubectl get pods -A
+
+# Get the serivce px-backup is using
+kubectl -n px-backup get services
+
+# Close your ssh session and re-launch with the new destination ip and port
+ssh pxlab##@k0.ccrow.org -L 9000:10.0.1.8:9000
+
+# Configure px-backup to connect to both your cluster, and your neighbors cluster
+# This will require you to exchange your .kube/config file
+
+# Add the minio repository (Don't use your own!)
+# accessKey: minio
+# secretKey: minio123
+# region: us-west-2
+# path/bucket: pxlab##
+# endpoint: 192.168.86.9:9000
+# disable ssl
+
+
+#  back up your minio## namespace
+
+# delete your minio## namespace
+kubectl delete namespace minio##
+
+# restore your minio namespace
+
+
+# discuss px-backup
+# What happened?
+# Does this work with other CSI drivers?
+# Does it work with cloud instances?
+# Can I restore to a different cluster?
+
+### Now we will migrate our minio## namespace to our neighbors cluster
+### The below example uses pxlab01 as the source, and pxlab02 as the destination
+https://docs.portworx.com/portworx-install-with-kubernetes/migration/
+
+# Generate the cluster pair: storkctl generate clusterpair -n <namespaceToMigrate> <RemoteClusterName>
+storkctl generate clusterpair -n minio01 pxlab01
+
+# On the REMOTE cluster (pxlab02 in this example) get the cluster token:
+# NOTE: You will need to change the pod name to fit your cluster
+kubectl exec px-cluster-4c4ca671-5ed2-4952-9965-f036335441a2-spnz8 -n kube-system -it -- /opt/pwx/bin/pxctl cluster token show
+
+# Send the output to your lab partner
