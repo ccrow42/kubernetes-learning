@@ -39,6 +39,7 @@ Requirements:
 # Use the internal KVDB
 # do not give kvdb a dedicated devices
 # It is fine to automatically grab the device, sdb is a blank, 20gb disk
+# Automatically create journal devices
 
 
 # Execute pxctl status against portworx pod
@@ -64,7 +65,7 @@ kubectl -n minio## apply -f .
 # Find the load balancer IP and port:
 kubectl -n minio## get services
 
-# close you SSH tunnel and restart it with (The bit past the -L is <localport>:<dstIP>:<dstPort>)
+# close you SSH tunnel and restart it with a -L option (The bit past the -L is <localport>:<dstIP>:<dstPort>)
 # Replace all of the below with the correct IP and ports
 ssh pxlab##@k0.ccrow.org -L 9000:10.0.1.8:9000
 
