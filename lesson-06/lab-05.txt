@@ -8,15 +8,15 @@ Requirements:
 - These labs are brand new and setup fresh for this lesson
 
 
-###We will be splitting in to pairs
+### We will be splitting in to pairs
 
 # pxlab01/pxlab02 and pxlab03/pxlab04
-#you can access the labs with pxlab##@k0.ccrow.org
+# you can access the labs with pxlab##@k0.ccrow.org
 
 #pxlab01 owns k31-k34
-#pxlab01 owns k41-k44
-#pxlab01 owns k51-k54
-#pxlab01 owns k61-k64
+#pxlab02 owns k41-k44
+#pxlab03 owns k51-k54
+#pxlab04 owns k61-k64
 #The first node in the above is the control node, the others are workers
 
 
@@ -46,13 +46,12 @@ Requirements:
 kubectl get pods -A
 
 # execute pxctl status on the chosen pod
-kubectl exec px-cluster-7658f9ff-f239-40da-8e93-37db0c5743b5-89g6v -n kube-system -it -- /opt/pwx/bin/pxctl status
+kubectl exec px-cluster-4c4ca671-5ed2-4952-9965-f036335441a2-spnz8 -n kube-system -it -- /opt/pwx/bin/pxctl status
 
 # Did the above work?
 
 # Check some other things:
 kubectl get storageclasses
-kubectl get storageclasses -o yaml
 
 
 ## Deploy Minio. NOTE: do not copy and paste the below commands, the namespace must be unique
@@ -113,4 +112,15 @@ kubectl delete namespace minio##
 # Does it work with cloud instances?
 # Can I restore to a different cluster?
 
-### New we will migrate our minio## namespace to our neighbors cluster
+### Now we will migrate our minio## namespace to our neighbors cluster
+### The below example uses pxlab01 as the source, and pxlab02 as the destination
+https://docs.portworx.com/portworx-install-with-kubernetes/migration/
+
+# Generate the cluster pair: storkctl generate clusterpair -n <namespaceToMigrate> <RemoteClusterName>
+storkctl generate clusterpair -n minio01 pxlab01
+
+# On the REMOTE cluster (pxlab02 in this example) get the cluster token:
+# NOTE: You will need to change the pod name to fit your cluster
+kubectl exec px-cluster-4c4ca671-5ed2-4952-9965-f036335441a2-spnz8 -n kube-system -it -- /opt/pwx/bin/pxctl cluster token show
+
+# Send the output to your lab partner
