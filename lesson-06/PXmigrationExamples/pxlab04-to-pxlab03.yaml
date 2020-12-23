@@ -1,0 +1,13 @@
+apiVersion: stork.libopenstorage.org/v1alpha1
+kind: Migration
+metadata:
+  name: minio04
+  namespace: minio04
+spec:
+  clusterPair: pxlab03
+  includeResources: true
+  startApplications: true
+  namespaces:
+  - minio04
+  adminClusterPair: pxlab03
+  purgeDeletedResources: false
