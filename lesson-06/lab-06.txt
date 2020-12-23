@@ -140,7 +140,7 @@ port: "9001"
 token: "6def2536f55d32797c6885c4568db395d070c09ab03dae3b9bfdc8b98458afecd328c984c9618616846c0e0d30815d316dd347d5b71134184ac978198d2c2e67"
 
 
-# If your lab partner did his job, there will be a spec in /home/shared you can Apply
+# If your lab partner did their job, there will be a spec in /home/shared you can Apply
 # NOTE: Remember that you generated a yaml file for your lab partner to apply
 #Apply your lab partners spec
 kubectl apply -f /home/shared/pxlab02.yaml
