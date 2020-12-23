@@ -146,3 +146,28 @@ token: "6def2536f55d32797c6885c4568db395d070c09ab03dae3b9bfdc8b98458afecd328c984
 kubectl apply -f /home/shared/pxlab02.yaml
 
 storkctl get clusterpair
+
+
+######
+# Now start the migration!
+kubectl apply -f pxlab01-to-pxlab02.yaml
+
+# Monitor with
+storkctl get migration -n minio01
+
+#For troubleshooting, see:
+https://docs.portworx.com/portworx-install-with-kubernetes/migration/
+
+
+######
+# Upgrade stork
+kubectl -n kube-system get storageclusters
+
+# Modify the px-cluster with the output from the above
+kubectl -n kube-system edit storagecluster px-cluster-4097b4e9-43ce-4177-88e0-3cef427b5cd2
+
+#add spec.stork.image: openstorage/stork:2.6.0
+spec:
+  stork:
+    enabled: true
+    image: openstorage/stork:2.6.0

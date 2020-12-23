@@ -9,5 +9,4 @@ spec:
   startApplications: true
   namespaces:
   - minio03
-  adminClusterPair: pxlab04
   purgeDeletedResources: false
