@@ -59,15 +59,15 @@ kubectl get storageclasses
 cd ~/kubernetes-learning/lesson-06/minio
 
 #Where ## is the number of your portworx lab
-kubectl create namespace minio##
-kubectl -n minio## apply -f .
+kubectl create namespace minio<##>
+kubectl -n minio<##> apply -f ~/kubernetes-learning/lesson-06/minio/.
 
 # Find the load balancer IP and port:
-kubectl -n minio## get services
+kubectl -n minio<##> get services
 
 # close you SSH tunnel and restart it with a -L option (The bit past the -L is <localport>:<dstIP>:<dstPort>)
 # Replace all of the below with the correct IP and ports
-ssh pxlab##@k0.ccrow.org -L 9000:10.0.1.8:9000
+ssh pxlab##@k0.ccrow.org -L 9001:10.0.1.106:9001
 
 # Connect to minIO and add some unique data
 
@@ -117,11 +117,32 @@ kubectl delete namespace minio##
 ### The below example uses pxlab01 as the source, and pxlab02 as the destination
 https://docs.portworx.com/portworx-install-with-kubernetes/migration/
 
-# Generate the cluster pair: storkctl generate clusterpair -n <namespaceToMigrate> <RemoteClusterName>
-storkctl generate clusterpair -n minio01 pxlab01
 
-# On the REMOTE cluster (pxlab02 in this example) get the cluster token:
+# Generate the cluster pair to give to your lab partner: storkctl generate clusterpair -n <TheirNamespacetoMigrate> <YourClusterName>
+storkctl generate clusterpair -n minio02 pxlab01 > /home/shared/pxlab01.yaml
+
+# Now we are going to get a cluster token to add to the YAML file you created in the previous step:
 # NOTE: You will need to change the pod name to fit your cluster
+kubectl -n kube-system get pods
 kubectl exec px-cluster-4c4ca671-5ed2-4952-9965-f036335441a2-spnz8 -n kube-system -it -- /opt/pwx/bin/pxctl cluster token show
 
-# Send the output to your lab partner
+vi /home/shared/pxlab01.yaml and add the following:
+
+options:
+    ip: "<ip-address-of-node-in-the-destination-cluster>"
+    port: "<port_of_remote_px_node_default_9001>"
+    token: "<token_generated_from_destination_cluster>"
+
+
+An example:
+ip: "k32.lab.local"
+port: "9001"
+token: "6def2536f55d32797c6885c4568db395d070c09ab03dae3b9bfdc8b98458afecd328c984c9618616846c0e0d30815d316dd347d5b71134184ac978198d2c2e67"
+
+
+# If your lab partner did his job, there will be a spec in /home/shared you can Apply
+# NOTE: Remember that you generated a yaml file for your lab partner to apply
+#Apply your lab partners spec
+kubectl apply -f /home/shared/pxlab02.yaml
+
+storkctl get clusterpair
