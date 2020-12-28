@@ -161,6 +161,7 @@ https://docs.portworx.com/portworx-install-with-kubernetes/migration/
 
 ######
 # Upgrade stork
+# Upgrading stork is required if you are going to backup CSI based storage
 kubectl -n kube-system get storageclusters
 
 # Modify the px-cluster with the output from the above
