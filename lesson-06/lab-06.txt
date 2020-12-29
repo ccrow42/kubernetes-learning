@@ -87,8 +87,8 @@ kubectl -n px-backup get services
 # Close your ssh session and re-launch with the new destination ip and port
 ssh pxlab##@k0.ccrow.org -L 9000:10.0.1.8:9000
 
-# Configure px-backup to connect to both your cluster, and your neighbors cluster
-# This will require you to exchange your .kube/config file
+# Configure px-backup to connect to your cluster
+# Instructions for getting your kubeconfig are in the cluster add wizard
 
 # Add the minio repository (Don't use your own!)
 # accessKey: minio
@@ -145,12 +145,12 @@ token: "6def2536f55d32797c6885c4568db395d070c09ab03dae3b9bfdc8b98458afecd328c984
 #Apply your lab partners spec
 kubectl apply -f /home/shared/pxlab02.yaml
 
-storkctl get clusterpair
+storkctl get clusterpair --all-namespaces
 
 
 ######
 # Now start the migration!
-kubectl apply -f pxlab01-to-pxlab02.yaml
+kubectl apply -f ~/kubernetes-learning/lesson-06/PXmigrationExamples/pxlab01-to-pxlab02.yaml
 
 # Monitor with
 storkctl get migration -n minio01
