@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: minio-pvc
 spec:
-  storageClassName: px-db
+  storageClassName: pure-block
   accessModes:
     - ReadWriteOnce
   resources:
